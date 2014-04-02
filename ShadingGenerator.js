@@ -22,7 +22,7 @@ var ShadingGenerator = {
      */
     colorB: null,
     
-    colorIncrement: '101010',
+    colorIncrement: 10,
     
     /**
      * Initialize ShadingGenerator
@@ -61,10 +61,31 @@ var ShadingGenerator = {
         $('body').on('keyup', '#color-b', this, function (el) {
             console.log('b');
         });
+        
+        $('body').on('click', '.shading-preview', this, function (el) {
+            var value = $(this).find('input').val();
+            if (el.data.hexIsValid(value)) {
+                
+                // Update value
+                el.data.colorHex = el.data.formatHex(value);
+                
+                $('#color-hex').val(el.data.colorHex);
+                
+                // Update RGB
+                el.data.updateRgbFromHex();
+                
+                // Update preview
+                el.data.updateColorPreview();
+                
+                // Update shadings
+                el.data.updateShadings();
+            }
+        });
+        
     },
     
     hexIsValid: function (hex) {
-        if (null !== hex && (hex.length === 3 || hex.length === 6)) {
+        if (undefined !== hex && null !== hex && (hex.length === 3 || hex.length === 6)) {
             if (hex.length === 3) {
                 // Process shorthand
                 hex = this.formatHex(hex);
@@ -167,6 +188,21 @@ var ShadingGenerator = {
     
     updateColorPreview: function () {
         $('#color-preview').removeClass('no-color').css({backgroundColor: '#' + this.colorHex});
+        
+        //        RBG
+        $('#similar-preview-1').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorR, this.colorB, this.colorG) });
+
+        //        GRB
+        $('#similar-preview-2').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorG, this.colorR, this.colorB) });
+
+        //        GBR
+        $('#similar-preview-3').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorG, this.colorB, this.colorR) });
+
+        //        BRG
+        $('#similar-preview-4').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorB, this.colorR, this.colorG) });
+        
+        //        BGR
+        $('#similar-preview-5').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorB, this.colorG, this.colorR) });
     },
     
     updateShadings: function () {
@@ -187,16 +223,16 @@ var ShadingGenerator = {
             };
             shadings.push(currentShading);
             
-            currentR = currentR - 10;
-            currentG = currentG - 10;
-            currentB = currentB - 10;
+            currentR = currentR - this.colorIncrement;
+            currentG = currentG - this.colorIncrement;
+            currentB = currentB - this.colorIncrement;
         } 
         
         shadings.reverse();
         
-        currentR = this.colorR + 10;
-        currentG = this.colorG + 10;
-        currentB = this.colorB + 10;
+        currentR = this.colorR + this.colorIncrement;
+        currentG = this.colorG + this.colorIncrement;
+        currentB = this.colorB + this.colorIncrement;
         
         while (255 >= currentR && 255 >= currentG && 255 >= currentB) {
             var currentShading = {
@@ -207,9 +243,9 @@ var ShadingGenerator = {
             };
             shadings.push(currentShading);
             
-            currentR = currentR + 10;
-            currentG = currentG + 10;
-            currentB = currentB + 10;
+            currentR = currentR + this.colorIncrement;
+            currentG = currentG + this.colorIncrement;
+            currentB = currentB + this.colorIncrement;
         } 
         
         $('#color-shadings tbody').empty();
@@ -219,17 +255,11 @@ var ShadingGenerator = {
             var html = '';
             
             html += '<tr>';
-            html += '<td class="">';
-            html += '   <div class="' + (this.colorHex == shading.hex ? 'shading-preview-current' : 'shading-preview') + '" style="background-color: #' + shading.hex.toString(16) + '"></div>';
-            html += '</td>';
-//            html += '<td class="col-md-5">';
-//            html += '<div class="btn-group">';
-//            html += '   <button class="btn btn-sm btn-default">#' + shading.hex + '</button>';
-//            html += '   <button class="btn btn-sm btn-default">' + shading.hex + '</button>';
-//            html += '   <button class="btn btn-sm btn-default">rgb(' + shading.r + ', ' + shading.g + ', ' + shading.b + ')</button>';
-//            html += '</div>';
-//            html += '</td>';
-            
+            html += '   <td class="">';
+            html += '       <div class="' + (this.colorHex == shading.hex ? 'shading-preview-current' : 'shading-preview') + '" style="background-color: #' + shading.hex.toString(16) + '">';
+            html += '           <input type="hidden" name="shading-hex[' + i + ']" value="' + shading.hex + '" />';
+            html += '       </div>';
+            html += '   </td>';
             html += '/<tr>';
             
             $('#color-shadings tbody').append(html);
