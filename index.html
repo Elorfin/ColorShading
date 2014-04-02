@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Color Shading</title>
+        
+        <link rel="stylesheet" media="screen" type="text/css" href="lib/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="main.css" />
+        
+        <script src="lib/jquery/jquery.min.js" type="text/javascript"></script>
+        
+        <script src="ShadingGenerator.js" type="text/javascript"></script>
+        
+        <link rel="icon" type="image/x-icon" href="favicon.png" />
+    </head>
+    
+    <body>
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="header">Color shading <span class="small">generate all shadings for a given color</span></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+<!--                         <div class="panel-heading"> -->
+<!--                             <h4 class="panel-title">Choose your color</h4> -->
+<!--                         </div> -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">R</span>
+                                        <input type="text" name="color-r" id="color-r" class="form-control" value="" maxlength="3" />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">G</span>
+                                        <input type="text" name="color-g" id="color-g" class="form-control" value="" maxlength="3" />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">B</span>
+                                        <input type="text" name="color-b" id="color-b" class="form-control" value="" maxlength="3" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-6">
+                                 <div class="input-group">
+                                        <span class="input-group-addon">#</span>
+                                        <input type="text" name="color-hex" id="color-hex" class="form-control" value="" maxlength="6" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="color-preview" class="no-color"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <table id="color-shadings" class="table">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ShadingGenerator.initialize();
+        });
+    </script>
+</html>
