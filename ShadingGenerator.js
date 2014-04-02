@@ -62,7 +62,7 @@ var ShadingGenerator = {
             console.log('b');
         });
         
-        $('body').on('click', '.shading-preview', this, function (el) {
+        $('body').on('click', '.select-color', this, function (el) {
             var value = $(this).find('input').val();
             if (el.data.hexIsValid(value)) {
                 
@@ -189,20 +189,32 @@ var ShadingGenerator = {
     updateColorPreview: function () {
         $('#color-preview').removeClass('no-color').css({backgroundColor: '#' + this.colorHex});
         
+        var similar = null;
+        
         //        RBG
-        $('#similar-preview-1').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorR, this.colorB, this.colorG) });
-
+        similar = this.rgbToHex(this.colorR, this.colorB, this.colorG);
+        $('#similar-preview-1').removeClass('no-color').css({backgroundColor: '#' + similar });
+        $('#similar-preview-1').find('input').val(similar);
+        
         //        GRB
-        $('#similar-preview-2').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorG, this.colorR, this.colorB) });
-
+        similar = this.rgbToHex(this.colorG, this.colorR, this.colorB);
+        $('#similar-preview-2').removeClass('no-color').css({backgroundColor: '#' + similar });
+        $('#similar-preview-2').find('input').val(similar);
+        
         //        GBR
-        $('#similar-preview-3').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorG, this.colorB, this.colorR) });
-
+        similar = this.rgbToHex(this.colorG, this.colorB, this.colorR);
+        $('#similar-preview-3').removeClass('no-color').css({backgroundColor: '#' + similar });
+        $('#similar-preview-3').find('input').val(similar);
+        
         //        BRG
-        $('#similar-preview-4').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorB, this.colorR, this.colorG) });
+        similar = this.rgbToHex(this.colorB, this.colorR, this.colorG);
+        $('#similar-preview-4').removeClass('no-color').css({backgroundColor: '#' + similar });
+        $('#similar-preview-4').find('input').val(similar);
         
         //        BGR
-        $('#similar-preview-5').removeClass('no-color').css({backgroundColor: '#' + this.rgbToHex(this.colorB, this.colorG, this.colorR) });
+        similar = this.rgbToHex(this.colorB, this.colorG, this.colorR);
+        $('#similar-preview-5').removeClass('no-color').css({backgroundColor: '#' + similar });
+        $('#similar-preview-5').find('input').val(similar);
     },
     
     updateShadings: function () {
@@ -256,7 +268,7 @@ var ShadingGenerator = {
             
             html += '<tr>';
             html += '   <td class="">';
-            html += '       <div class="' + (this.colorHex == shading.hex ? 'shading-preview-current' : 'shading-preview') + '" style="background-color: #' + shading.hex.toString(16) + '">';
+            html += '       <div class="' + (this.colorHex == shading.hex ? 'shading-preview-current' : 'shading-preview select-color') + '" style="background-color: #' + shading.hex.toString(16) + '">';
             html += '           <input type="hidden" name="shading-hex[' + i + ']" value="' + shading.hex + '" />';
             html += '       </div>';
             html += '   </td>';
